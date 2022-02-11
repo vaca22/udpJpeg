@@ -76,13 +76,6 @@ class ServerFragment : Fragment() {
             MainApplication.application.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
 
-        ServerHeart.dataScope.launch {
-            server = ServerSocket(PORT)
-            acceptJob = ServerHeart.dataScope.launch {
-                ServerHeart.startAccept()
-            }
-
-        }
 
         binding = FragmentServerBinding.inflate(inflater, container, false)
 
@@ -91,57 +84,12 @@ class ServerFragment : Fragment() {
 
 
 
-        ServerHeart.receiveYes = object : ServerHeart.ReceiveYes {
-            override fun onResponseReceived(response: Response, mySocket: MySocket) {
-                val id = mySocket.id
-                when (response.cmd) {
-                    TcpCmd.CMD_READ_FILE_START -> {
-                        ServerHeart.dataScope.launch {
-                           /* val list=imgArray.get(imgArray.size-2)
-                            if (list==null) {
-                                return@launch
-                            }*/
-                           /* try {
-                                serverSend[id] = JpegSend(list)
-                                serverSend[id]!!.jpegSeq = response.pkgNo
-                                ServerHeart.send(
-                                    TcpCmd.ReplyFileStart(
-                                        serverSend[id]!!.jpegSize,
-                                        serverSend[id]!!.jpegSeq,
-                                        id
-                                    ), mySocket
-                                )
-                            } catch (e: Exception) {
-
-                            }*/
-
-                        }
-
-
-                    }
-                    TcpCmd.CMD_READ_FILE_DATA -> {
-                        nnSocket=mySocket
-                    /*
-                        GlobalScope.launch {
-                            while (imgArray.size>5){
-                                imgArray.removeAt(0)
-                            }
-                        }*/
-
-
-
-                    }
-
-                }
-            }
-        }
 
 
         return binding.root
     }
 
 
-    //val imgArray = LinkedList<ByteArray>()
 
 
     private fun startBackgroundThread() {
